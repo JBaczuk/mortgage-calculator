@@ -1,25 +1,19 @@
 import math
+import MortgageCalculator as mc
+
+mCalc = mc.MortgageCalculator()
 
 termYears = 30
 initialPrincipal = 117000
+rate = 0.04125
+propertyTaxRate = .0006 # determined from average of data scraped
+closingCosts = 5000
+downPayment = 10000
 
 # Calculate monthly payments
-if(termYears == 30):
-	rate = .04125
-	monthlyRate = rate/12
-	numberPayments = termYears*12
-	minPayment = initialPrincipal*(monthlyRate/(1-math.pow((1+monthlyRate),-numberPayments))) # M = P*(J/(1-(1+J)^-N))
-elif(termYears == 15):
-	rate = .035
-	monthlyRate = rate/12
-	minPayment = initialPrincipal*(monthlyRate/(1-math.pow((1+monthlyRate),-numberPayments))) # M = P*(J/(1-(1+J)^-N))
+minPayment = mCalc.calculateLoanPayment(initialPrincipal, termYears, rate)
 
-
-propertyTaxRate = .0006 # determined from average of data scraped
-
-closingCosts = 5000
-downPayment = 10000 - closingCosts
-initialPrincipal -= downPayment
+initialPrincipal = initialPrincipal + (closingCosts - downPayment)
 
 # Need to add in the cost of:
 # - escrow account fees
