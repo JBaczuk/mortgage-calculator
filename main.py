@@ -1,8 +1,9 @@
 from __future__ import division
 import math
 
-def amortizationSchedule(P=166250, termYears=30, annualInterestRate=3.625, propertyTaxRate=0.0006):
+def amortizationSchedule(P, termYears, annualInterestRate, extraPrincipal):
     outstandingPrincipal = P
+    totalPaid = 0
 
     i = (annualInterestRate/100) / 12
     n = termYears * 12
@@ -15,23 +16,30 @@ def amortizationSchedule(P=166250, termYears=30, annualInterestRate=3.625, prope
         for month in range(0,12):
             interestPayment = i * outstandingPrincipal
             principalPayment = monthlyPayment - interestPayment
-            outstandingPrincipal = outstandingPrincipal - principalPayment
-            print("year: ", year, "month: ", month)
-            print("interest: ", interestPayment)
-            print("principal: ", principalPayment)
-            print("outstanding: ", outstandingPrincipal)
-            print()
+            totalPaid = totalPaid + (interestPayment + principalPayment + extraPrincipal)
+            outstandingPrincipal = outstandingPrincipal - (principalPayment + extraPrincipal)
+            print "year: ", year, "month: ", month
+            print "interest: ", interestPayment
+            print "principal: ", principalPayment
+            print "outstanding: ", outstandingPrincipal
+            print
+            if outstandingPrincipal <= 0:
+                print
+                print "Mortgage Summary"
+                print "----------------"
+                print "Total Paid: ", totalPaid
+                print "Total Interest Paid: ", totalPaid - P
+                return
 
 
 def main():
-    # initialPrincipal = input("Initial Principal Amount: ") # This should be after down payment and closing costs
-    # termYears = input("Term in Years: ")
-    # annualInterestRate = input("Annual Interest Rate: ")
-    # propertyTaxRate = input("Annual Property Tax Rate: ") #= .0006 # determined from average of data scraped
+    initialPrincipal = input("Initial Principal Amount: ") # This should be after down payment and closing costs
+    termYears = input("Term in Years: ")
+    annualInterestRate = input("Annual Interest Rate: ")
+    extraPrincipal = input("Extra Monthly Principal: ")
 
     # Print Amortization Schedule
-    # amortizationSchedule(initialPrincipal, termYears, annualInterestRate, propertyTaxRate)
-    amortizationSchedule()
+    amortizationSchedule(initialPrincipal, termYears, annualInterestRate, extraPrincipal)
 
 if __name__ == "__main__":
     main()
