@@ -23,7 +23,7 @@ def amortizationSchedule(P, termYears, annualInterestRate, extraPrincipal):
             print "principal: ", principalPayment
             print "outstanding: ", outstandingPrincipal
             print
-            if outstandingPrincipal <= 0:
+            if outstandingPrincipal <= 0 or (year == termYears - 1 and month == 11):
                 print
                 print "Mortgage Summary"
                 print "----------------"
